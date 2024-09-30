@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CleanArchitecture.UseCases.Glucometer.Commands;
+using CleanArchitecture.UseCases.Glucometer.Handlers.Delete;
+using CleanArchitecture.UseCases.Glucometer.Handlers.Get;
+using CleanArchitecture.UseCases.Glucometer.Handlers.Post;
+using CleanArchitecture.UseCases.Glucometer.Handlers.Put;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
@@ -9,10 +14,13 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpPost]
-    public ActionResult<object> PostAddTest([FromBody] IAddTestAdapter adapter)
+    public ActionResult<object> PostAddTest([FromBody] AddTestCommand command, [FromServices] AddTestHandler handler)
     {
         try
         {
+            if (!command.Validate() || !ModelState.IsValid)
+                return BadRequest();
+            handler.Handle(command);
             return Ok("Adicionado com sucesso");
         }
 
@@ -24,11 +32,14 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpGet]
-    public ActionResult<object> GetTests()
+    public ActionResult<object> GetTests([FromServices] GetTestsHandler handler)
     {
         try
         {
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var tests = handler.Handle(new GetTestsCommand());
+            return Ok(tests);
         }
         catch (Exception ex)
         {
@@ -36,12 +47,15 @@ public class GlucometerController : MyBaseController
         }
     }
 
-    [Route("{Id}")]
+    [Route("")]
     [HttpPut]
-    public ActionResult<object> UpdateTest([FromRoute] string Id)
+    public ActionResult<object> UpdateTest([FromBody] PatchTestCommand command, PatchTestHandler handler)
     {
         try
         {
+            if (!command.Validate() || !ModelState.IsValid)
+                return BadRequest();
+            handler.Handle(command);
             return Ok("Atualizado com sucesso!");
         }
         catch (Exception ex)
@@ -52,12 +66,15 @@ public class GlucometerController : MyBaseController
 
     [Route("{Id}")]
     [HttpDelete]
-    public ActionResult<object> DeleteTest([FromRoute] string Id)
+    public ActionResult<object> DeleteTest([FromRoute] string Id, [FromServices] DeleteTestHandler handler)
     {
         try
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var id = Guid.Parse(Id);
+            handler.Handle(new DeleteTestCommand() { Id = id });
             return Ok("Deletado com sucesso!");
-
         }
         catch (Exception ex)
         {
