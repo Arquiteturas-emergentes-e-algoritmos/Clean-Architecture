@@ -1,6 +1,6 @@
 ﻿namespace CleanArchitecture.UseCases.Common.Command;
 
-public interface ICommand
+public interface ICommandRequest
 {
     public bool Validate();
 }
