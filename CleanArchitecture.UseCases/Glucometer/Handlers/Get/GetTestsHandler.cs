@@ -11,6 +11,6 @@ public class GetTestsHandler(IGlucometerRepository glucometerRepository) : IHand
 
     public ICommandResponse Handle(GetTestsCommand command)
     {
-        return new CommandResponse { Data = _glucometerRepository.GetAll(), Message = "There are all tests" };
+        return new CommandResponse(_glucometerRepository.GetAll(), "There are all tests", 200);
     }
 }
