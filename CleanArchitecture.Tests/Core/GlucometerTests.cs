@@ -11,7 +11,7 @@ public class GlucometerTests
         var GlucoseTest = new GlucoseTest();
         var glucometer = new Glucometer();
         glucometer.AddTest(GlucoseTest);
-        Assert.AreNotEqual(glucometer.GlucoseTests.Count, 0);
+        Assert.AreNotEqual(0, glucometer.GlucoseTests.Count);
     }
 
     [TestMethod]

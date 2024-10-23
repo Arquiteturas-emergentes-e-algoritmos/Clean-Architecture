@@ -20,5 +20,5 @@ public class CommandResponse : ICommandResponse
 
     public object? Data { get; set; } = null;
     public string Message { get; set; } = string.Empty;
-    public int Status { get; set; } = 500;
+    public int Status { get; set; }
 }
