@@ -13,7 +13,7 @@ public class MedicationPlan : Entity
         Medications.OrderBy(m => m.TakeAt.TimeOfDay - DateTime.UtcNow.TimeOfDay);
     }
 
-    public void RemoveMedication(Medication m) => Medications.Remove(m);
+    public void RemoveMedication(Guid id) => Medications.RemoveAll(x => x.Id == id);
 
     public void UpdateMedication(Medication m)
     {
