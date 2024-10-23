@@ -12,8 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseMySql("Server=localhost;Port=3306;Database=clean;Uid=root;Pwd=07431131100;",
-                            ServerVersion.AutoDetect("Server=localhost;Port=3306;Database=clean;Uid=root;Pwd=07431131100;"),
+    options.UseMySql(string.Empty,
+                            ServerVersion.AutoDetect(string.Empty),
                             b => b.MigrationsAssembly("CleanArchitecture.Web"));
     Console.WriteLine("Database connection");
 });
