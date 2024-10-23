@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.UseCases.Common.Handler;
 
-public interface IHandler<T> where T : ICommandRequest
+public interface IHandler<in T> where T : ICommandRequest
 {
     ICommandResponse Handle(T command);
 }
