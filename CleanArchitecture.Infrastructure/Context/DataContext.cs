@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Core.Glucometer;
-using CleanArchitecture.Core.Medication;
+﻿using CleanArchitecture.Core.User;
 using CleanArchitecture.Infrastructure.Context.Config;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +8,9 @@ public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-    public DbSet<Glucometer> Glucometers { get; set; }
-    public DbSet<MedicationPlan> MedicationPlans { get; set; }
+    public DbSet<User> Users { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration<Glucometer>(new GlucometerConfig());
-        modelBuilder.ApplyConfiguration<MedicationPlan>(new MedicationPlanConfig());
-
+        modelBuilder.ApplyConfiguration<User>(new UserConfig());
     }
 }

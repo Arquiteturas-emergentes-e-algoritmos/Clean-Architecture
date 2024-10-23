@@ -1,35 +1,37 @@
-﻿using CleanArchitecture.Core.Medication;
+﻿using CleanArchitecture.Core.Glucometer;
 using CleanArchitecture.Infrastructure.Context;
 using CleanArchitecture.UseCases.MedicationPlan.Repositories;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
-public class MedicationPlanRepository(DataContext context) : IMedicationPlanRepository
+public class MedicationPlanRepository : IMedicationPlanRepository
 {
-    private readonly DataContext _context = context;
-
-    public void Add(Medication entity)
+    private readonly DataContext _context;
+    public MedicationPlanRepository(DataContext context)
     {
-        _context.MedicationPlans.FirstOrDefault()!.AddMedication(entity);
-        _context.SaveChanges();
+        _context = context;
     }
-
-    public void Delete(Medication entity)
+    public void Add(GlucoseTest entity)
     {
         throw new NotImplementedException();
     }
 
-    public List<Medication> GetAll()
+    public void Delete(GlucoseTest entity)
     {
         throw new NotImplementedException();
     }
 
-    public Medication GetById(string id)
+    public List<GlucoseTest> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public void Update(Medication entity)
+    public GlucoseTest GetById(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(GlucoseTest entity)
     {
         throw new NotImplementedException();
     }

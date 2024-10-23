@@ -4,10 +4,13 @@ using CleanArchitecture.UseCases.Glucometer.Repositories;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
-public class GlucometerRepository(DataContext context) : IGlucometerRepository
+public class GlucometerRepository : IGlucometerRepository
 {
-    private readonly DataContext _context = context;
-
+    private readonly DataContext _context;
+    public GlucometerRepository(DataContext context)
+    {
+        _context = context;
+    }
     public void Add(GlucoseTest entity)
     {
         throw new NotImplementedException();
