@@ -15,7 +15,7 @@ public class MedicationPlanController : MyBaseController
 
     [Route("")]
     [HttpPost]
-    public ActionResult<object> PostAddMedication
+    public IActionResult PostAddMedication
         ([FromBody] AddMedicationCommand command, [FromServices] AddMedicationHandler handler)
     {
         try
@@ -35,7 +35,7 @@ public class MedicationPlanController : MyBaseController
     }
     [Route("")]
     [HttpGet]
-    public ActionResult<object> GetMedications([FromServices] GetAllMedicationsHandler handler)
+    public IActionResult GetMedications([FromServices] GetAllMedicationsHandler handler)
     {
         try
         {
@@ -53,7 +53,7 @@ public class MedicationPlanController : MyBaseController
 
     [Route("")]
     [HttpPut]
-    public ActionResult<object> UpdateMedication([FromBody] PatchMedicationCommand command, [FromServices] PatchMedicationHandler handler)
+    public IActionResult UpdateMedication([FromBody] PatchMedicationCommand command, [FromServices] PatchMedicationHandler handler)
     {
         try
         {
@@ -70,7 +70,7 @@ public class MedicationPlanController : MyBaseController
     }
     [Route("{Id}")]
     [HttpDelete]
-    public ActionResult<object> DeleteMedication([FromServices] DeleteMedicationHandler handler, [FromRoute] string Id)
+    public IActionResult DeleteMedication([FromServices] DeleteMedicationHandler handler, [FromRoute] string Id)
     {
         try
         {

@@ -14,7 +14,7 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpPost]
-    public ActionResult<object> PostAddTest([FromBody] AddTestCommand command, [FromServices] AddTestHandler handler)
+    public IActionResult PostAddTest([FromBody] AddTestCommand command, [FromServices] AddTestHandler handler)
     {
         try
         {
@@ -32,7 +32,7 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpGet]
-    public ActionResult<object> GetTests([FromServices] GetTestsHandler handler)
+    public IActionResult GetTests([FromServices] GetTestsHandler handler)
     {
         try
         {
@@ -49,7 +49,7 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpPut]
-    public ActionResult<object> UpdateTest([FromBody] PatchTestCommand command, PatchTestHandler handler)
+    public IActionResult UpdateTest([FromBody] PatchTestCommand command, PatchTestHandler handler)
     {
         try
         {
@@ -66,7 +66,7 @@ public class GlucometerController : MyBaseController
 
     [Route("{Id}")]
     [HttpDelete]
-    public ActionResult<object> DeleteTest([FromRoute] string Id, [FromServices] DeleteTestHandler handler)
+    public IActionResult DeleteTest([FromRoute] string Id, [FromServices] DeleteTestHandler handler)
     {
         try
         {

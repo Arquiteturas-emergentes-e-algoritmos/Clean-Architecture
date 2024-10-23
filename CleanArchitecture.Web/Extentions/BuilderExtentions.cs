@@ -9,6 +9,7 @@ using CleanArchitecture.UseCases.MedicationPlan.Handlers.Get;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Post;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Put;
 using CleanArchitecture.UseCases.MedicationPlan.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.Web.Extentions;
 
@@ -18,6 +19,7 @@ public static class BuilderExtentions
     {
         builder.Services.AddTransient<IMedicationPlanRepository, MedicationPlanRepository>();
         builder.Services.AddTransient<IGlucometerRepository, GlucometerRepository>();
+        builder.Services.AddTransient<IUserRepository, UserRepository>();
 
         builder.Services.AddTransient<AddTestHandler>();
         builder.Services.AddTransient<AddMedicationHandler>();
