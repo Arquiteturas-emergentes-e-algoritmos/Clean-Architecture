@@ -1,14 +1,14 @@
-﻿using CleanArchitecture.Core.Glucometer;
-using CleanArchitecture.UseCases.Common.Command;
+﻿using CleanArchitecture.UseCases.Common.Command;
 
 namespace CleanArchitecture.UseCases.Glucometer.Commands;
 
 public class AddTestCommand : ICommandRequest
 {
-    public GlucoseTest glucoseTest { get; set; } = new GlucoseTest();
+    public DateTime Time { get; set; } = DateTime.Now;
+    public ushort Value { get; set; } = 0;
     public bool Validate()
     {
-        if (glucoseTest.Time == DateTime.MinValue || glucoseTest.Value == 0) return false;
+        if (Time == DateTime.MinValue || Value == 0) return false;
         return true;
     }
 }

@@ -1,16 +1,14 @@
 ﻿using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.Glucometer.Commands;
-using CleanArchitecture.UseCases.Glucometer.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.Glucometer.Handlers.Get;
 
-public class GetTestsHandler(IGlucometerRepository glucometerRepository) : IHandler<GetTestsCommand>
+public class GetTestsHandler(IUserRepository userRepository) : BaseHandler(userRepository), IHandler<GetTestsCommand>
 {
-    private readonly IGlucometerRepository _glucometerRepository = glucometerRepository;
-
     public ICommandResponse Handle(GetTestsCommand command)
     {
-        return new CommandResponse(_glucometerRepository.GetAll(), "There are all tests", 200);
+        return new CommandResponse(GetUser().Glucometer.GlucoseTests, "There are all tests", 200);
     }
 }

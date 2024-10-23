@@ -1,17 +1,17 @@
 ﻿using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.MedicationPlan.Commands;
-using CleanArchitecture.UseCases.MedicationPlan.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.MedicationPlan.Handlers.Put;
 
-public class PatchMedicationHandler(IMedicationPlanRepository medicationPlanRepository) : IHandler<PatchMedicationCommand>
+public class PatchMedicationHandler(IUserRepository userRepository) : BaseHandler(userRepository), IHandler<PatchMedicationCommand>
 {
-    private readonly IMedicationPlanRepository _medicationPlanRepository = medicationPlanRepository;
-
     public ICommandResponse Handle(PatchMedicationCommand command)
     {
-        _medicationPlanRepository.Update(command.Medication);
+        var user = GetUser();
+        user.MedicationPlan.UpdateMedication(command.Medication);
+        _userRepository.PatchUser(user);
         return new CommandResponse(null, 200);
     }
 }

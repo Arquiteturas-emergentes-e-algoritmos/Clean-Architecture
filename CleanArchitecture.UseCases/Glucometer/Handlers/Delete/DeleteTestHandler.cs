@@ -1,17 +1,17 @@
 ﻿using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.Glucometer.Commands;
-using CleanArchitecture.UseCases.Glucometer.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.Glucometer.Handlers.Delete;
 
-public class DeleteTestHandler(IGlucometerRepository glucometerRepository) : IHandler<DeleteTestCommand>
+public class DeleteTestHandler(IUserRepository userRepository) : BaseHandler(userRepository), IHandler<DeleteTestCommand>
 {
-    private readonly IGlucometerRepository _glucometerRepository = glucometerRepository;
-
     public ICommandResponse Handle(DeleteTestCommand command)
     {
-        _glucometerRepository.Delete(_glucometerRepository.GetById(command.Id.ToString()));
+        var user = GetUser();
+        user.Glucometer.DeleteTest(command.Id);
+        _userRepository.PatchUser(user);
         return new CommandResponse(null, 200);
     }
 }

@@ -1,16 +1,17 @@
 ﻿using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.Glucometer.Commands;
-using CleanArchitecture.UseCases.Glucometer.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.Glucometer.Handlers.Put;
 
-public class PatchTestHandler(IGlucometerRepository glucometerRepository) : IHandler<PatchTestCommand>
+public class PatchTestHandler(IUserRepository userRepository) : BaseHandler(userRepository), IHandler<PatchTestCommand>
 {
-    private readonly IGlucometerRepository _glucometerRepository = glucometerRepository;
     public ICommandResponse Handle(PatchTestCommand command)
     {
-        _glucometerRepository.Add(command.glucoseTest);
+        var user = GetUser();
+        user.Glucometer.UpdateTest(command.glucoseTest);
+        _userRepository.PatchUser(user);
         return new CommandResponse(null, 200);
     }
 }

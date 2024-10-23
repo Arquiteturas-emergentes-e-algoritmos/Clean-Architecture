@@ -1,17 +1,20 @@
-﻿using CleanArchitecture.UseCases.Common.Command;
+﻿using CleanArchitecture.Core.Medication;
+using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.MedicationPlan.Commands;
-using CleanArchitecture.UseCases.MedicationPlan.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.MedicationPlan.Handlers.Post;
 
-public class AddMedicationHandler(IMedicationPlanRepository medicationPlanRepository) : IHandler<AddMedicationCommand>
+public class AddMedicationHandler(IUserRepository userRepository) : BaseHandler(userRepository), IHandler<AddMedicationCommand>
 {
-    private readonly IMedicationPlanRepository _medicationPlanRepository = medicationPlanRepository;
 
     public ICommandResponse Handle(AddMedicationCommand command)
     {
-        _medicationPlanRepository.Add(command.Medication);
+        var medication = new Medication(command.Name, command.TakeAt);
+        var user = GetUser();
+        user.MedicationPlan.AddMedication(medication);
+        _userRepository.PatchUser(user);
         return new CommandResponse(null, 200);
     }
 }

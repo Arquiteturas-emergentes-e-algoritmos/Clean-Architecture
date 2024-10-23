@@ -1,20 +1,18 @@
 ﻿using CleanArchitecture.UseCases.Common.Command;
 using CleanArchitecture.UseCases.Common.Handler;
 using CleanArchitecture.UseCases.MedicationPlan.Commands;
-using CleanArchitecture.UseCases.MedicationPlan.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 
 namespace CleanArchitecture.UseCases.MedicationPlan.Handlers.Delete;
 
-public class DeleteMedicationHandler(IMedicationPlanRepository medicationPlanRepository)
-    : IHandler<DeleteMedicationCommand>
+public class DeleteMedicationHandler(IUserRepository userRepository) : BaseHandler(userRepository),
+     IHandler<DeleteMedicationCommand>
 {
-    private readonly IMedicationPlanRepository _medicationPlanRepository = medicationPlanRepository;
     public ICommandResponse Handle(DeleteMedicationCommand command)
     {
-        var medication = _medicationPlanRepository.GetById(command.Id.ToString());
-        if (medication == null)
-            return new CommandResponse(404);
-        _medicationPlanRepository.Delete(medication);
-        return new CommandResponse(medication, 200);
+        var user = GetUser();
+        user.MedicationPlan.RemoveMedication(command.Id);
+        _userRepository.PatchUser(user);
+        return new CommandResponse(null, 200);
     }
 }

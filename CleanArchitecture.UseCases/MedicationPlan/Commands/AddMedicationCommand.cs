@@ -1,14 +1,16 @@
-﻿using CleanArchitecture.Core.Medication;
-using CleanArchitecture.UseCases.Common.Command;
+﻿using CleanArchitecture.UseCases.Common.Command;
 
 namespace CleanArchitecture.UseCases.MedicationPlan.Commands;
 
 public class AddMedicationCommand : ICommandRequest
 {
-    public Medication Medication { get; set; } = new Medication();
+    public string Name { get; set; } = string.Empty;
+
+    public DateTime TakeAt { get; set; } = DateTime.MinValue;
+
     public bool Validate()
     {
-        if (string.IsNullOrEmpty(Medication.Name) || (Medication.TakeAt == DateTime.MinValue)) return false;
+        if (string.IsNullOrEmpty(Name) || (TakeAt == DateTime.MinValue)) return false;
         return true;
     }
 }
