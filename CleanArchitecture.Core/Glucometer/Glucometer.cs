@@ -17,6 +17,6 @@ public class Glucometer : Entity
         if (testFound == null) return;
         GlucoseTests.Remove(testFound);
         GlucoseTests.Add(test);
-        GlucoseTests.OrderBy(t => t.Time);
+        _ = GlucoseTests.OrderBy(t => t.Time);
     }
 }

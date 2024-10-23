@@ -14,6 +14,9 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult PostAddTest([FromBody] AddTestCommand command, [FromServices] AddTestHandler handler)
     {
         try
@@ -32,6 +35,9 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetTests([FromServices] GetTestsHandler handler)
     {
         try
@@ -49,6 +55,9 @@ public class GlucometerController : MyBaseController
 
     [Route("")]
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult UpdateTest([FromBody] PatchTestCommand command, PatchTestHandler handler)
     {
         try
@@ -66,6 +75,9 @@ public class GlucometerController : MyBaseController
 
     [Route("{Id}")]
     [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult DeleteTest([FromRoute] string Id, [FromServices] DeleteTestHandler handler)
     {
         try

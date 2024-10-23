@@ -11,6 +11,5 @@ public class User : Entity, IObserver
 
     public void Update()
     {
-        return;
     }
 }

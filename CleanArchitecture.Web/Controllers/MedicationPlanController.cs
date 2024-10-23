@@ -15,6 +15,9 @@ public class MedicationPlanController : MyBaseController
 
     [Route("")]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult PostAddMedication
         ([FromBody] AddMedicationCommand command, [FromServices] AddMedicationHandler handler)
     {
@@ -35,6 +38,9 @@ public class MedicationPlanController : MyBaseController
     }
     [Route("")]
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetMedications([FromServices] GetAllMedicationsHandler handler)
     {
         try
@@ -53,6 +59,9 @@ public class MedicationPlanController : MyBaseController
 
     [Route("")]
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult UpdateMedication([FromBody] PatchMedicationCommand command, [FromServices] PatchMedicationHandler handler)
     {
         try
@@ -70,6 +79,9 @@ public class MedicationPlanController : MyBaseController
     }
     [Route("{Id}")]
     [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult DeleteMedication([FromServices] DeleteMedicationHandler handler, [FromRoute] string Id)
     {
         try
