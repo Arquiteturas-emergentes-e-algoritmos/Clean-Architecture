@@ -1,102 +1,117 @@
 ﻿using CleanArchitecture.Core.Medication;
+using CleanArchitecture.Core.User;
 using CleanArchitecture.UseCases.MedicationPlan.Commands;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Delete;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Get;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Post;
 using CleanArchitecture.UseCases.MedicationPlan.Handlers.Put;
-using CleanArchitecture.UseCases.MedicationPlan.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 using Moq;
 
-namespace CleanArchitecture.Tests.UseCases.MedicationPlan.Handlers
+namespace CleanArchitecture.Tests.UseCases;
+
+[TestClass]
+public class MedicationPlanTests
 {
-    [TestClass]
-    public class MedicationPlanHandlerTests
+    [TestMethod]
+    public void ShouldDeleteMedication()
     {
-        [TestMethod]
-        public void ShouldDeleteMedication()
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
         {
-            // Arrange
-            var mockRepository = new Mock<IMedicationPlanRepository>();
-            var deleteMedicationCommand = new DeleteMedicationCommand { Id = Guid.Empty };
-            var deleteMedicationHandler = new DeleteMedicationHandler(mockRepository.Object);
+            MedicationPlan = new MedicationPlan()
+        };
+        var medicationId = new Guid();
 
-            mockRepository.Setup(r => r.GetById(It.IsAny<string>())).Returns(new Medication());
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-            // Act
-            var response = deleteMedicationHandler.Handle(deleteMedicationCommand);
-
-            // Assert
-            mockRepository.Verify(r => r.Delete(It.IsAny<Medication>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
-
-        [TestMethod]
-        public void ShouldReturnNotFoundWhenDeletingNonExistingMedication()
+        var handler = new DeleteMedicationHandler(mockUserRepository.Object);
+        var command = new DeleteMedicationCommand
         {
-            // Arrange
-            var mockRepository = new Mock<IMedicationPlanRepository>();
-            var deleteMedicationCommand = new DeleteMedicationCommand { Id = Guid.Empty };
-            var deleteMedicationHandler = new DeleteMedicationHandler(mockRepository.Object);
+            Id = medicationId
+        };
 
-            mockRepository.Setup(r => r.GetById(It.IsAny<string>())).Returns((Medication?)null);
+        var result = handler.Handle(command);
 
-            // Act
-            var response = deleteMedicationHandler.Handle(deleteMedicationCommand);
+        Assert.AreEqual(200, result.Status);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
+    }
 
-            // Assert
-            Assert.AreEqual(404, response.Status);
-        }
-
-        [TestMethod]
-        public void ShouldGetAllMedications()
+    [TestMethod]
+    public void ShouldReturnAllMedications()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User();
+        var mockMedications = new List<Medication>
         {
-            // Arrange
-            var mockRepository = new Mock<IMedicationPlanRepository>();
-            var getMedicationsCommand = new GetMedicationsCommand();
-            var getAllMedicationsHandler = new GetAllMedicationsHandler(mockRepository.Object);
+            new("Insulina", DateTime.Now),
+            new("Dipirona", DateTime.Now)
+        };
 
-            mockRepository.Setup(r => r.GetAll()).Returns(new List<Medication>());
+        mockUser.MedicationPlan = new MedicationPlan { Medications = mockMedications };
 
-            // Act
-            var response = getAllMedicationsHandler.Handle(getMedicationsCommand);
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-            // Assert
-            mockRepository.Verify(r => r.GetAll(), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
+        var handler = new GetAllMedicationsHandler(mockUserRepository.Object);
+        var command = new GetMedicationsCommand();
 
-        [TestMethod]
-        public void ShouldAddMedication()
+        var result = handler.Handle(command);
+
+        Assert.AreEqual(200, result.Status);
+        Assert.AreEqual(mockMedications, result.Data);
+    }
+
+    [TestMethod]
+    public void ShouldAddNewMedication()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
         {
-            // Arrange
-            var mockRepository = new Mock<IMedicationPlanRepository>();
-            var medication = new Medication();
-            var addMedicationCommand = new AddMedicationCommand { Medication = medication };
-            var addMedicationHandler = new AddMedicationHandler(mockRepository.Object);
+            MedicationPlan = new MedicationPlan()
+        };
+        var medicationName = "Insulina";
+        var medicationTime = DateTime.Now;
 
-            // Act
-            var response = addMedicationHandler.Handle(addMedicationCommand);
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-            // Assert
-            mockRepository.Verify(r => r.Add(It.IsAny<Medication>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
-
-        [TestMethod]
-        public void ShouldPatchMedication()
+        var handler = new AddMedicationHandler(mockUserRepository.Object);
+        var command = new AddMedicationCommand
         {
-            // Arrange
-            var mockRepository = new Mock<IMedicationPlanRepository>();
-            var medication = new Medication();
-            var patchMedicationCommand = new PatchMedicationCommand { Medication = medication };
-            var patchMedicationHandler = new PatchMedicationHandler(mockRepository.Object);
+            Name = medicationName,
+            TakeAt = medicationTime
+        };
 
-            // Act
-            var response = patchMedicationHandler.Handle(patchMedicationCommand);
+        var result = handler.Handle(command);
 
-            // Assert
-            mockRepository.Verify(r => r.Update(It.IsAny<Medication>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
+        Assert.AreEqual(200, result.Status);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
+    }
+
+    [TestMethod]
+    public void PatchMedicationHandler_ShouldUpdateMedication()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
+        {
+            MedicationPlan = new MedicationPlan()
+        };
+        var medication = new Medication("UpdatedMed", DateTime.Now);
+
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
+
+        var handler = new PatchMedicationHandler(mockUserRepository.Object);
+        var command = new PatchMedicationCommand
+        {
+            Medication = medication
+        };
+
+        var result = handler.Handle(command);
+
+        Assert.AreEqual(200, result.Status);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
     }
 }

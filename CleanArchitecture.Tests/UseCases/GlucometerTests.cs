@@ -1,86 +1,118 @@
 ﻿using CleanArchitecture.Core.Glucometer;
+using CleanArchitecture.Core.User;
 using CleanArchitecture.UseCases.Glucometer.Commands;
 using CleanArchitecture.UseCases.Glucometer.Handlers.Delete;
 using CleanArchitecture.UseCases.Glucometer.Handlers.Get;
 using CleanArchitecture.UseCases.Glucometer.Handlers.Post;
 using CleanArchitecture.UseCases.Glucometer.Handlers.Put;
-using CleanArchitecture.UseCases.Glucometer.Repositories;
+using CleanArchitecture.UseCases.User.Repositories;
 using Moq;
 
-namespace CleanArchitecture.Tests.UseCases.Glucometer.Handlers
+namespace CleanArchitecture.Tests.UseCases;
+
+[TestClass]
+public class GlucometerTests
 {
-    [TestClass]
-    public class GlucometerHandlerTests
+    [TestMethod]
+    public void ShouldAddGlucoseTestWhenCommandIsValid()
     {
-        [TestMethod]
-        public void ShouldDeleteTest()
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
         {
-            // Arrange
-            var mockRepository = new Mock<IGlucometerRepository>();
-            var deleteTestCommand = new DeleteTestCommand { Id = Guid.Empty };
-            var deleteTestHandler = new DeleteTestHandler(mockRepository.Object);
+            Glucometer = new Glucometer()
+        };
 
-            mockRepository.Setup(r => r.GetById(It.IsAny<string>())).Returns(new GlucoseTest());
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-            // Act
-            var response = deleteTestHandler.Handle(deleteTestCommand);
+        var handler = new AddTestHandler(mockUserRepository.Object);
 
-            // Assert
-            mockRepository.Verify(r => r.Delete(It.IsAny<GlucoseTest>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
-
-        [TestMethod]
-        public void ShouldGetAllTests()
+        var command = new AddTestCommand
         {
-            // Arrange
-            var mockRepository = new Mock<IGlucometerRepository>();
-            var getTestsCommand = new GetTestsCommand();
-            var getTestsHandler = new GetTestsHandler(mockRepository.Object);
+            Value = 150,
+            Time = DateTime.Now
+        };
 
-            mockRepository.Setup(r => r.GetAll()).Returns(new List<GlucoseTest>());
+        var result = handler.Handle(command);
 
-            // Act
-            var response = getTestsHandler.Handle(getTestsCommand);
-
-            // Assert
-            mockRepository.Verify(r => r.GetAll(), Times.Once);
-            Assert.AreEqual(200, response.Status);
-            Assert.AreEqual("There are all tests", response.Message);
-        }
-
-        [TestMethod]
-        public void ShouldAddTest()
+        Assert.AreEqual(200, result.Status);
+        Assert.AreEqual(1, mockUser.Glucometer.GlucoseTests.Count);
+        Assert.AreEqual(command.Value, mockUser.Glucometer.GlucoseTests.First().Value);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
+    }
+    [TestMethod]
+    public void Handle_ShouldReturnAllGlucoseTests()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User();
+        var mockTests = new List<GlucoseTest>
         {
-            // Arrange
-            var mockRepository = new Mock<IGlucometerRepository>();
-            var glucoseTest = new GlucoseTest();
-            var addTestCommand = new AddTestCommand { glucoseTest = glucoseTest };
-            var addTestHandler = new AddTestHandler(mockRepository.Object);
+            new(150, System.DateTime.Now),
+            new(180, System.DateTime.Now)
+        };
 
-            // Act
-            var response = addTestHandler.Handle(addTestCommand);
+        mockUser.Glucometer = new Glucometer { GlucoseTests = mockTests };
 
-            // Assert
-            mockRepository.Verify(r => r.Add(It.IsAny<GlucoseTest>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-        [TestMethod]
-        public void ShouldPatchTest()
+        var handler = new GetTestsHandler(mockUserRepository.Object);
+        var command = new GetTestsCommand();
+
+        var result = handler.Handle(command);
+
+        Assert.AreEqual(200, result.Status);
+        Assert.AreEqual(mockTests, result.Data);
+        Assert.AreEqual("There are all tests", result.Message);
+    }
+
+    [TestMethod]
+    public void ShouldUpdateGlucoseTest()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
         {
-            // Arrange
-            var mockRepository = new Mock<IGlucometerRepository>();
-            var glucoseTest = new GlucoseTest();
-            var patchTestCommand = new PatchTestCommand { glucoseTest = glucoseTest };
-            var patchTestHandler = new PatchTestHandler(mockRepository.Object);
+            Glucometer = new Glucometer()
+        };
+        var mockTest = new GlucoseTest(150, System.DateTime.Now);
 
-            // Act
-            var response = patchTestHandler.Handle(patchTestCommand);
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
 
-            // Assert
-            mockRepository.Verify(r => r.Add(It.IsAny<GlucoseTest>()), Times.Once);
-            Assert.AreEqual(200, response.Status);
-        }
+        var handler = new PatchTestHandler(mockUserRepository.Object);
+        var command = new PatchTestCommand
+        {
+            glucoseTest = mockTest
+        };
+
+        var result = handler.Handle(command);
+
+        Assert.AreEqual(200, result.Status);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
+    }
+
+    [TestMethod]
+    public void ShouldDeleteGlucoseTest()
+    {
+        var mockUserRepository = new Mock<IUserRepository>();
+        var mockUser = new User
+        {
+            Glucometer = new Glucometer()
+        };
+        var testId = new Guid();
+
+        mockUserRepository.Setup(repo => repo.GetUser())
+                          .Returns(mockUser);
+
+        var handler = new DeleteTestHandler(mockUserRepository.Object);
+        var command = new DeleteTestCommand
+        {
+            Id = testId
+        };
+
+        var result = handler.Handle(command);
+
+        Assert.AreEqual(200, result.Status);
+        mockUserRepository.Verify(repo => repo.PatchUser(mockUser), Times.Once);
     }
 }

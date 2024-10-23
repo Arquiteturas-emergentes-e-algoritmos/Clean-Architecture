@@ -48,7 +48,7 @@ public class GlucometerTests
         var glucoseTest = new GlucoseTest { Value = 100 };
         glucometer.AddTest(glucoseTest);
 
-        glucometer.DeleteTest(glucoseTest);
+        glucometer.DeleteTest(glucoseTest.Id);
 
         Assert.AreEqual(0, glucometer.GlucoseTests.Count);
     }

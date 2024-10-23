@@ -24,7 +24,7 @@ namespace CleanArchitecture.Tests.Core
             var medicationPlan = new MedicationPlan();
             medicationPlan.AddMedication(medication);
 
-            medicationPlan.RemoveMedication(medication);
+            medicationPlan.RemoveMedication(medication.Id);
 
             Assert.AreEqual(0, medicationPlan.Medications.Count);
         }
