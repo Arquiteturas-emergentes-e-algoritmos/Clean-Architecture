@@ -4,7 +4,7 @@ O objetivo da Arquitetura Limpa, como abordagem de composição de sistemas, é 
 
 Através deste conceito é possível realizar a separação da camada de negócios de dependências externas, seguindo assim o princípio de responsabilidade única do SOLID. Nesse contexto, pode-se usar abstrações, onde, através da utilização do design pattern de injeção de dependência, é possível a implementação de interfaces sem a necessidade de um código concreto. Para isto, a estrutura da arquitetura limpa segue a ordem da imagem abaixo:
 
-![Estrutura da Arquitetura Limpa](img/Clean.png)  
+![Estrutura da Arquitetura Limpa](img/Clean.PNG)  
 *Figura: Estrutura da Arquitetura Limpa. Fonte:Robert Cecil Martin*  
 
 Para entender a figura, deve-se tomar como ponto de partida a regra da dependência, que diz que as dependências só podem apontar para dentro do círculo. Nada declarado externamente ao círculo pode ser observado pelas camadas internas. Assim, para compor a arquitetura, tem-se 4 níveis:
