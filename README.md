@@ -22,7 +22,7 @@ Ao submeter a Arquitetura Limpa à prova de conceito, foi observado um nível cr
 ## 🪐 SonarQube
 A figura 2 apresenta os dados coletados pelo SonarQube referentes a esta arquitetura.
 
-![Arquitetura Hexagonal](img/SonarClean.PNG)  
+![Arquitetura Limpa](img/SonarClean.PNG)  
 *Figura 2: SonarQube. Fonte:Autor*  
 
 ## 📖 Referências
