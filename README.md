@@ -19,10 +19,22 @@ Para entender a figura, deve-se tomar como ponto de partida a regra da dependên
 
 Ao submeter a Arquitetura Limpa à prova de conceito, foi observado um nível crescente de trabalho e linhas ao adicionar alguma feature, o que foi comprovado posteriormente pelo Sonar. Todavia, essa crescente vem do foco em isolar as camadas da arquitetura através de interfaces. Algo também observado foi a facilidade em realizar testes de unidade, isto ocorre devido às interfaces localizadas entre as camadas. No entanto, isso não facilita os testes de integração, já que é necessário utilizar várias estruturas para apenas um teste.
 
+## 🪐 SonarQube
+A figura 2 apresenta os dados coletados pelo SonarQube referentes a esta arquitetura.
+
+![Arquitetura Hexagonal](img/SonarClean.PNG)  
+*Figura 2: SonarQube. Fonte:Autor*  
+
 ## 📖 Referências
+
+1. dotnet. (2023, novembro). Clean Architecture with ASP.NET Core 8. *YouTube*. Disponível em: [https://www.youtube.com/watch?v=yF9SwL0p0Y0](https://www.youtube.com/watch?v=yF9SwL0p0Y0).
+
+2. Martin, R. C. (2017). *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. 1ª ed. Prentice Hall Press, USA.
+
 
 ## 📅 Versionamento
 
 | Versão |    Data    |         Descrição          |  Autor(es)  |
 | :----: | :--------: | :------------------------: | :---------: |
 | `1.0`  | 04/12/2024 | Criação de documento | Kauã |
+| `1.1`  | 19/12/2024 | Adição do sonar e referências | Kauã |
