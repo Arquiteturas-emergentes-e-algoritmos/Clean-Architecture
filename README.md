@@ -25,6 +25,11 @@ A figura 2 apresenta os dados coletados pelo SonarQube referentes a esta arquite
 ![Arquitetura Limpa](img/SonarClean.PNG)  
 *Figura 2: SonarQube. Fonte:Autor*  
 
+A figura 3 apresenta as linhas de código utilizadas para resolver a POC para cada arquitetura.
+
+![Arquitetura Limpa](img/Linhas.PNG)  
+*Figura 3: SonarQube. Fonte:Autor*  
+
 ## 📖 Referências
 
 1. dotnet. (2023, novembro). Clean Architecture with ASP.NET Core 8. *YouTube*. Disponível em: [https://www.youtube.com/watch?v=yF9SwL0p0Y0](https://www.youtube.com/watch?v=yF9SwL0p0Y0).
