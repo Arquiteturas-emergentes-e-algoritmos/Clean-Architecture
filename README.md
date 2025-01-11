@@ -30,6 +30,8 @@ A figura 3 apresenta as linhas de código utilizadas para resolver a POC para ca
 ![Arquitetura Limpa](img/Linhas.PNG)  
 *Figura 3: SonarQube. Fonte:Autor*  
 
+Ao submeter o repositório ao serviço de cobertura de testes do visual studio, os projetos que foram voltados os testes, useCase e Core, obteram respectivamente 94.6% e 90% de cobertura de testes, uma taxa altissíma.
+
 ## 📖 Referências
 
 1. dotnet. (2023, novembro). Clean Architecture with ASP.NET Core 8. *YouTube*. Disponível em: [https://www.youtube.com/watch?v=yF9SwL0p0Y0](https://www.youtube.com/watch?v=yF9SwL0p0Y0).
@@ -43,3 +45,4 @@ A figura 3 apresenta as linhas de código utilizadas para resolver a POC para ca
 | :----: | :--------: | :------------------------: | :---------: |
 | `1.0`  | 04/12/2024 | Criação de documento | Kauã |
 | `1.1`  | 19/12/2024 | Adição do sonar e referências | Kauã |
+| `1.2`
