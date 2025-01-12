@@ -45,4 +45,4 @@ Ao submeter o repositório ao serviço de cobertura de testes do visual studio, 
 | :----: | :--------: | :------------------------: | :---------: |
 | `1.0`  | 04/12/2024 | Criação de documento | Kauã |
 | `1.1`  | 19/12/2024 | Adição do sonar e referências | Kauã |
-| `1.2`
+| `1.2`  | 12/01/2025 | Adicionar testes | Kauã |
